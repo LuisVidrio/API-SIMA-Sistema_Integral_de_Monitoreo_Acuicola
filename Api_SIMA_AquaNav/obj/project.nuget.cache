@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "H3f6xn86Syfyf4ercK9F1a/+Jlp53mEnL7ZPmUf97hHHsZyV9Rkzdy0oDqNBOiq7OWSD+z60vy0qGphK/3f+iQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Luis Vidrio\\source\\repos\\Api_SIMA_AquaNav\\Api_SIMA_AquaNav\\Api_SIMA_AquaNav.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Luis Vidrio\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512"
+  ],
+  "logs": []
+}
