@@ -1,1 +1,0 @@
-# API-SIMA-Sistema_Integral_de_Monitoreo_Acuicola
