@@ -26,6 +26,14 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
+    [AllowAnonymous]
+    [HttpPost("[action]")]
+    public IActionResult AuthenticateSingup(AuthenticateSingupRequest model)
+    {
+        var response = _userService.AuthenticateSingup(model);
+        return Ok(response);
+    }
+
     [Authorize(Role.Admin)]
     [HttpGet]
     public IActionResult GetAll()

@@ -1,6 +1,7 @@
 namespace WebApi.Services;
 
 using BCrypt.Net;
+using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.Extensions.Options;
 using WebApi.Authorization;
 using WebApi.Entities;
@@ -10,6 +11,7 @@ using WebApi.Models.Users;
 public interface IUserService
 {
     AuthenticateResponse Authenticate(AuthenticateRequest model);
+    AuthenticateResponse AuthenticateSingup(AuthenticateSingupRequest model);
     IEnumerable<User> GetAll();
     User GetById(int id);
 }
@@ -41,6 +43,34 @@ public class UserService : IUserService
 
         // authentication successful so generate jwt token
         var jwtToken = _jwtUtils.GenerateJwtToken(user);
+
+        return new AuthenticateResponse(user, jwtToken);
+    }
+
+     public AuthenticateResponse AuthenticateSingup(AuthenticateSingupRequest model)
+    {
+        var jwtToken = "";
+        var user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
+        if( user != null )throw new AppException("Username exists");
+        // validate
+        if (user == null)
+        {
+            var newUser = new User {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Username = model.Username,
+                PasswordHash = BCryptNet.HashPassword(model.Password),
+                Role = model.Role
+                };
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
+            jwtToken = _jwtUtils.GenerateJwtToken(newUser);
+            user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
+        }
+
+
+        // authentication successful so generate jwt token
+
 
         return new AuthenticateResponse(user, jwtToken);
     }
