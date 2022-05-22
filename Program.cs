@@ -11,12 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
     var env = builder.Environment;
-
+    services.AddRazorPages();
     services.AddDbContext<DataContext>();
     services.AddCors();
     services.AddControllers().AddJsonOptions(x =>
     {
         // serialize enums as strings in api responses (e.g. Role)
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
@@ -26,7 +27,15 @@ var builder = WebApplication.CreateBuilder(args);
     // configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IPondService, PondService>();
+    services.AddScoped<I_IOT_ModuleService, IOT_ModuleService>();
+    services.AddScoped<I_IOT_DeviceService, IOT_DeviceService>();
+
+
+
+
 }
+
 
 var app = builder.Build();
 
@@ -46,6 +55,14 @@ var app = builder.Build();
 
     app.MapControllers();
 }
+
+    app.UseStaticFiles();
+    app.UseRouting();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapRazorPages();
+    });
+
 
 // create hardcoded test users in db on startup
 

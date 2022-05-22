@@ -79,6 +79,9 @@ namespace WebApi.Migrations
                     b.Property<int>("Longitud")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.ToTable("Ponds");

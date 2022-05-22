@@ -7,6 +7,8 @@ public class Pond
     public int Id { get; set; }
     public int Altitude { get; set; }
     public int Longitud { get; set; }
+    public string Name { get; set; }
+
     public List<IOT_Module> IOT_Modules { get; set;}
 
 }
