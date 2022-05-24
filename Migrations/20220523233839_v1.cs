@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApi.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class v1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,9 @@ namespace WebApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Altitude = table.Column<int>(type: "int", nullable: false),
-                    Longitud = table.Column<int>(type: "int", nullable: false)
+                    Longitud = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -96,7 +98,8 @@ namespace WebApi.Migrations
                 columns: table => new
                 {
                     IOT_DeviceId = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime(3)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime(3)", nullable: false),
+                    parameter_value = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
                 },
                 constraints: table =>
                 {
