@@ -6,8 +6,8 @@ using WebApi.Entities;
 
 public class CreateIOT_ModuleRequest
 {
-
-    [Required]
-    public int PondId { get; set; }
+    public string serial { get; set; }
+    public string version { get; set; }
+    public string CPU {get; set; }
 
 }

@@ -11,8 +11,8 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220521232659_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220523233839_v1")]
+    partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,9 @@ namespace WebApi.Migrations
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("datetime(3)");
+
+                    b.Property<decimal>("parameter_value")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("IOT_DeviceId", "created_at");
 

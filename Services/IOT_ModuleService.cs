@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 public interface I_IOT_ModuleService
-{    CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
+{   //CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
     IEnumerable<IOT_Module> GetAll();
     IOT_Module GetById(int id);
     IOT_Module Delete(int id);
@@ -35,9 +35,9 @@ public class IOT_ModuleService : I_IOT_ModuleService
     }
 
 
-    public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
+    /*public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
     {
-        var pond = _context.Ponds.Find(model.PondId);
+       var pond = _context.Ponds.Find(model.PondId);
         // validate
             if(pond != null ){
                 var newIOT_Module = new IOT_Module {
@@ -56,7 +56,7 @@ public class IOT_ModuleService : I_IOT_ModuleService
 
 
 
-    }
+    }*/
 
     public IEnumerable<IOT_Module> GetAll()
     {

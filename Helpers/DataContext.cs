@@ -34,10 +34,6 @@ public class DataContext : DbContext
            .IsRequired();
         modelBuilder.Entity<IOT_Value>()
             .HasKey(c => new { c.IOT_DeviceId, c.created_at });
-        modelBuilder.Entity<Pond>()
-            .HasMany<IOT_Module>(g => g.IOT_Modules)
-            .WithOne(s => s.Pond)
-            .OnDelete(DeleteBehavior.SetNull);
     }
 
 }

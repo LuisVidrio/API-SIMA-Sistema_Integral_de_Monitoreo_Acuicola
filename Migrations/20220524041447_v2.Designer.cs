@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
@@ -10,9 +11,10 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220524041447_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,16 +46,19 @@ namespace WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("CPU")
-                        .HasColumnType("longtext");
-
                     b.Property<int>("PondId")
                         .HasColumnType("int");
+
+                    b.Property<string>("machine")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("node")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("release")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("serial")
+                    b.Property<string>("system")
                         .HasColumnType("longtext");
 
                     b.Property<string>("version")

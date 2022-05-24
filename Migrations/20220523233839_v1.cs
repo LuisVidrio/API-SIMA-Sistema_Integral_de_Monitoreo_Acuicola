@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApi.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class v1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -98,7 +98,8 @@ namespace WebApi.Migrations
                 columns: table => new
                 {
                     IOT_DeviceId = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime(3)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime(3)", nullable: false),
+                    parameter_value = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
                 },
                 constraints: table =>
                 {
