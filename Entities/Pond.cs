@@ -15,14 +15,14 @@ public class Pond
 public class IOT_Module
 {
     public int Id { get; set; }
-    public int PondId { get; set; }
-    public string serial { get; set; }
+    public int? PondId { get; set; }
+    public string serialId { get; set; }
 
     public string release {get; set; }
 
     public string version { get; set; }
     public string CPU {get; set; }
-    public Pond Pond { get; set; }
+    public Pond? Pond { get; set; }
 
     public List<IOT_Device> IOT_Devices { get; set;}
 }

@@ -35,5 +35,4 @@ public class DataContext : DbContext
         modelBuilder.Entity<IOT_Value>()
             .HasKey(c => new { c.IOT_DeviceId, c.created_at });
     }
-
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 public interface I_IOT_ModuleService
-{   //CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
+{   CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
     IEnumerable<IOT_Module> GetAll();
     IOT_Module GetById(int id);
     IOT_Module Delete(int id);
@@ -35,28 +35,22 @@ public class IOT_ModuleService : I_IOT_ModuleService
     }
 
 
-    /*public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
+   public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
     {
-       var pond = _context.Ponds.Find(model.PondId);
-        // validate
-            if(pond != null ){
+        var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
+
+            if(iotModule != null ) throw new KeyNotFoundException("found module with the same serialId");
                 var newIOT_Module = new IOT_Module {
-                PondId = model.PondId,
-                Pond = pond,
+                serialId = model.serialId,
+                version = model.version,
+                CPU = model.CPU
                 };
             _context.IOT_Modules.Add(newIOT_Module);
             _context.SaveChanges();
-            var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.PondId == model.PondId);
+            iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
             return new CreateIOT_ModuleResponse(iotModule,"Created Sucessfully",null );
 
-            }
-        throw new KeyNotFoundException("Pond not found");
-
-
-
-
-
-    }*/
+    }
 
     public IEnumerable<IOT_Module> GetAll()
     {

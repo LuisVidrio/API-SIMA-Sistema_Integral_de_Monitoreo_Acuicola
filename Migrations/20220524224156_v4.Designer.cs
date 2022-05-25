@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
@@ -10,9 +11,10 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220524224156_v4")]
+    partial class v4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,13 +49,13 @@ namespace WebApi.Migrations
                     b.Property<string>("CPU")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("PondId")
+                    b.Property<int>("PondId")
                         .HasColumnType("int");
 
                     b.Property<string>("release")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("serialId")
+                    b.Property<string>("serial")
                         .HasColumnType("longtext");
 
                     b.Property<string>("version")
@@ -143,7 +145,9 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("WebApi.Entities.Pond", "Pond")
                         .WithMany("IOT_Modules")
-                        .HasForeignKey("PondId");
+                        .HasForeignKey("PondId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pond");
                 });

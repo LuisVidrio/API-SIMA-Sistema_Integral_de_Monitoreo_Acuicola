@@ -20,12 +20,12 @@ public class IOT_ModuleController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("[action]")]
-    /*public IActionResult Create(CreateIOT_ModuleRequest model)
+    public IActionResult Create(CreateIOT_ModuleRequest model)
     {
         Console.WriteLine("in CREATE");
         var response = _iotModuleService.Add(model);
         return Ok(response);
-    }*/
+    }
     [HttpGet]
     public IActionResult GetAll()
     {
