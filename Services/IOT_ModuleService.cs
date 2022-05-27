@@ -39,7 +39,7 @@ public class IOT_ModuleService : I_IOT_ModuleService
     {
         var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
 
-            if(iotModule != null ) throw new KeyNotFoundException("found module with the same serialId");
+            if(iotModule != null ) return new CreateIOT_ModuleResponse(iotModule,"found Module with the same id",null);
                 var newIOT_Module = new IOT_Module {
                 serialId = model.serialId,
                 version = model.version,
@@ -77,6 +77,7 @@ public class IOT_ModuleService : I_IOT_ModuleService
         var iotModule = _context.IOT_Modules.Find(id);
         Console.WriteLine("looking at pond",id);
         if (iotModule == null) throw new KeyNotFoundException("User not found");
+        Console.WriteLine("looking at pond2",id);
         _context.Remove(iotModule);
         _context.SaveChanges();
         return iotModule;

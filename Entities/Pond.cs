@@ -24,7 +24,7 @@ public class IOT_Module
     public string CPU {get; set; }
     public Pond? Pond { get; set; }
 
-    public List<IOT_Device> IOT_Devices { get; set;}
+    public List<IOT_Device>? IOT_Devices { get; set;}
 }
 
 public enum Parameter
@@ -34,19 +34,22 @@ public enum Parameter
 
 public class IOT_Device
 {
-    public int Id { get; set; }
-    public int IOT_ModuleId { get; set; }
+    public string Id { get; set; }
+    public int? IOT_ModuleId { get; set; }
 
-    public Parameter Parameter { get; set; }
-    public IOT_Module IOT_Module { get; set; }
+    public Parameter? Parameter { get; set; }
+    public IOT_Module? IOT_Module { get; set; }
+
+    public string deviceType { get; set; }
 
     public List<IOT_Value> IOT_Values { get; set;}
 }
 
 public class IOT_Value
 {
-    public int IOT_DeviceId { get; set;}
+    public string IOT_DeviceId { get; set;}
     public IOT_Device IOT_Device { get; set;}
     public decimal parameter_value { get; set; }
+    public Parameter Parameter {get; set;}
     public DateTime created_at { get; set; }
 }

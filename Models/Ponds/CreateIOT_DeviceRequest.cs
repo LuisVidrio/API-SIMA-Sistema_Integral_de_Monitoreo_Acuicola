@@ -7,8 +7,9 @@ using WebApi.Entities;
 public class CreateIOT_DeviceRequest
 {
     [Required]
-    public int IOT_ModuleId { get; set; }
-
-    public Parameter Parameter { get; set; }
+    public string id { get; set; }
+    public Parameter parameter { get; set; }
+    public string deviceType {get; set;}
+    public int IOT_ModuleId {get;set;}
 
 }

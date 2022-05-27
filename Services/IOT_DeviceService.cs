@@ -13,8 +13,8 @@ using Microsoft.EntityFrameworkCore;
 public interface I_IOT_DeviceService
 {    CreateIOT_DeviceResponse Add(CreateIOT_DeviceRequest model);
     IEnumerable<IOT_Device> GetAll();
-    IOT_Device GetById(int id);
-    IOT_Device Delete(int id);
+    IOT_Device GetById(string id);
+    IOT_Device Delete(string id);
     CreateIOT_DeviceResponse Update(IOT_Device model);
 }
 
@@ -37,20 +37,21 @@ public class IOT_DeviceService : I_IOT_DeviceService
 
     public CreateIOT_DeviceResponse Add(CreateIOT_DeviceRequest model)
     {
-        var module = _context.IOT_Modules.Find(model.IOT_ModuleId);
-        // validate
-            if(module != null ){
+         var iotDevice = _context.IOT_Devices.FirstOrDefault(x => x.Id == model.id);
+
+            if(iotDevice != null ) throw new KeyNotFoundException("found Device with the same serialId");
                 var newIOT_Device = new IOT_Device {
-                IOT_ModuleId = model.IOT_ModuleId,
-                IOT_Module = module,
+                Id = model.id,
+                deviceType = model.deviceType,
+                Parameter = model.parameter,
+                IOT_ModuleId = model.IOT_ModuleId
                 };
             _context.IOT_Devices.Add(newIOT_Device);
             _context.SaveChanges();
-            var iotDevice = _context.IOT_Devices.FirstOrDefault(x => x.IOT_ModuleId == model.IOT_ModuleId);
+            iotDevice = _context.IOT_Devices.FirstOrDefault(x => x.Id == model.id);
             return new CreateIOT_DeviceResponse(iotDevice,"Created Sucessfully",null );
 
-            }
-        throw new KeyNotFoundException("Pond not found");
+
     }
 
     public IEnumerable<IOT_Device> GetAll()
@@ -58,7 +59,7 @@ public class IOT_DeviceService : I_IOT_DeviceService
         return _context.IOT_Devices;
     }
 
-    public IOT_Device GetById(int id)
+    public IOT_Device GetById(string id)
     {
         var iotDevice = _context.IOT_Devices.Include(IOT_Device => IOT_Device.IOT_Module)
         .FirstOrDefault(x => x.Id == id);
@@ -74,7 +75,7 @@ public class IOT_DeviceService : I_IOT_DeviceService
 
     }
 
-    public IOT_Device Delete(int id){
+    public IOT_Device Delete(string id){
         var iotDevice = _context.IOT_Devices.Find(id);
         if (iotDevice == null) throw new KeyNotFoundException("User not found");
         _context.Remove(iotDevice);

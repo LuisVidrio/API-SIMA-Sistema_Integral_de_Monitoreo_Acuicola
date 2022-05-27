@@ -11,8 +11,8 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220524224156_v4")]
-    partial class v4
+    [Migration("20220527171717_v1")]
+    partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,15 +23,17 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("WebApi.Entities.IOT_Device", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("IOT_ModuleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IOT_ModuleId")
+                    b.Property<int?>("Parameter")
                         .HasColumnType("int");
 
-                    b.Property<int>("Parameter")
-                        .HasColumnType("int");
+                    b.Property<string>("deviceType")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -49,13 +51,13 @@ namespace WebApi.Migrations
                     b.Property<string>("CPU")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("PondId")
+                    b.Property<int?>("PondId")
                         .HasColumnType("int");
 
                     b.Property<string>("release")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("serial")
+                    b.Property<string>("serialId")
                         .HasColumnType("longtext");
 
                     b.Property<string>("version")
@@ -70,11 +72,14 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("WebApi.Entities.IOT_Value", b =>
                 {
-                    b.Property<int>("IOT_DeviceId")
-                        .HasColumnType("int");
+                    b.Property<string>("IOT_DeviceId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("datetime(3)");
+
+                    b.Property<int>("Parameter")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("parameter_value")
                         .HasColumnType("decimal(65,30)");
@@ -134,9 +139,7 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("WebApi.Entities.IOT_Module", "IOT_Module")
                         .WithMany("IOT_Devices")
-                        .HasForeignKey("IOT_ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IOT_ModuleId");
 
                     b.Navigation("IOT_Module");
                 });
@@ -145,9 +148,7 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("WebApi.Entities.Pond", "Pond")
                         .WithMany("IOT_Modules")
-                        .HasForeignKey("PondId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PondId");
 
                     b.Navigation("Pond");
                 });
