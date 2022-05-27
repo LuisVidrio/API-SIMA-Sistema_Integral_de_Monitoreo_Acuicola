@@ -57,4 +57,10 @@ public class IOT_ModuleController : ControllerBase
 
         return Ok(pond);
     }
+      [HttpPost("[action]")]
+   public IActionResult SetPond(SetPond_ModuleRequest model)
+    {
+        var response = _iotModuleService.SetPond(model);
+        return Ok(response);
+    }
 }

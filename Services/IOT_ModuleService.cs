@@ -16,6 +16,7 @@ public interface I_IOT_ModuleService
     IOT_Module GetById(int id);
     IOT_Module Delete(int id);
     CreateIOT_ModuleResponse Update(IOT_Module model);
+    CreateIOT_ModuleResponse SetPond(SetPond_ModuleRequest model);
 }
 
 public class IOT_ModuleService : I_IOT_ModuleService
@@ -38,7 +39,6 @@ public class IOT_ModuleService : I_IOT_ModuleService
    public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
     {
         var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
-
             if(iotModule != null ) return new CreateIOT_ModuleResponse(iotModule,"found Module with the same id",null);
                 var newIOT_Module = new IOT_Module {
                 serialId = model.serialId,
@@ -50,6 +50,18 @@ public class IOT_ModuleService : I_IOT_ModuleService
             iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
             return new CreateIOT_ModuleResponse(iotModule,"Created Sucessfully",null );
 
+    }
+
+    public CreateIOT_ModuleResponse SetPond(SetPond_ModuleRequest model){
+    var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.Id == model.Id);
+    if(iotModule != null){
+          iotModule.PondId = model.pondId;
+    _context.IOT_Modules.Attach(iotModule).Property(r=>r.PondId).IsModified=true;
+    _context.SaveChanges();
+    iotModule = _context.IOT_Modules.FirstOrDefault(x => x.Id == model.Id);
+    return new CreateIOT_ModuleResponse(iotModule,"the pond was set sucessfully",null);
+    }
+    return new CreateIOT_ModuleResponse(iotModule,"there was an error",null);
     }
 
     public IEnumerable<IOT_Module> GetAll()
