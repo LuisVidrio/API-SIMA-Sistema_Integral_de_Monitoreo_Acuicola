@@ -20,12 +20,12 @@ public class IOT_ModuleController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("[action]")]
-    /*public IActionResult Create(CreateIOT_ModuleRequest model)
+    public IActionResult Create(CreateIOT_ModuleRequest model)
     {
         Console.WriteLine("in CREATE");
         var response = _iotModuleService.Add(model);
         return Ok(response);
-    }*/
+    }
     [HttpGet]
     public IActionResult GetAll()
     {
@@ -56,5 +56,11 @@ public class IOT_ModuleController : ControllerBase
         var pond =  _iotModuleService.Update(model);
 
         return Ok(pond);
+    }
+      [HttpPost("[action]")]
+   public IActionResult SetPond(SetPond_ModuleRequest model)
+    {
+        var response = _iotModuleService.SetPond(model);
+        return Ok(response);
     }
 }

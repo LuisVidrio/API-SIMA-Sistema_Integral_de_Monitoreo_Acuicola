@@ -38,9 +38,11 @@ public class IOT_ValuesService : I_IOT_ValuesService
     }
 
         public IEnumerable<IOT_ValueResponse> GetByPondId(int id){
+                        Console.WriteLine("weps1");
            var  IOT_Module = _context.IOT_Modules.FirstOrDefault(x=>x.PondId == id);
+                       Console.WriteLine("weps2");
            var IOT_Device = _context.IOT_Devices.FirstOrDefault(x => x.IOT_ModuleId == IOT_Module.Id);
-
+            Console.WriteLine("weps3");
             return _context.IOT_Values.Where(Value => Value.IOT_DeviceId == IOT_Device.Id).Select(p => new IOT_ValueResponse(p));
         }
 

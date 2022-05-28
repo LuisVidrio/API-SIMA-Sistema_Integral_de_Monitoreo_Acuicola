@@ -22,7 +22,6 @@ public class IOT_DeviceController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult Create(CreateIOT_DeviceRequest model)
     {
-        Console.WriteLine("in CREATE");
         var response = _iotDeviceService.Add(model);
         return Ok(response);
     }
@@ -33,15 +32,15 @@ public class IOT_DeviceController : ControllerBase
         return Ok(ponds);
     }
     [AllowAnonymous]
-    [HttpGet("{id:int}")]
-    public IActionResult GetById(int id)
+    [HttpGet("{id}")]
+    public IActionResult GetById(string id)
     {
         // only admins can access other user records
         var pond =  _iotDeviceService.GetById(id);
         return Ok(pond);
     }
-    [HttpDelete("{id:int}")]
-     public IActionResult Delete(int id)
+    [HttpDelete("{id}")]
+     public IActionResult Delete(string id)
     {
         // only admins can access other user
 

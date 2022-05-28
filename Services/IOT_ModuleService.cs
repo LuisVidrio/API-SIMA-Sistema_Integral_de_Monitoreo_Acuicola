@@ -11,11 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 
 public interface I_IOT_ModuleService
-{   //CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
+{   CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
     IEnumerable<IOT_Module> GetAll();
     IOT_Module GetById(int id);
     IOT_Module Delete(int id);
     CreateIOT_ModuleResponse Update(IOT_Module model);
+    CreateIOT_ModuleResponse SetPond(SetPond_ModuleRequest model);
 }
 
 public class IOT_ModuleService : I_IOT_ModuleService
@@ -35,28 +36,33 @@ public class IOT_ModuleService : I_IOT_ModuleService
     }
 
 
-    /*public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
+   public CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model)
     {
-       var pond = _context.Ponds.Find(model.PondId);
-        // validate
-            if(pond != null ){
+        var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
+            if(iotModule != null ) return new CreateIOT_ModuleResponse(iotModule,"found Module with the same id",null);
                 var newIOT_Module = new IOT_Module {
-                PondId = model.PondId,
-                Pond = pond,
+                serialId = model.serialId,
+                version = model.version,
+                CPU = model.CPU
                 };
             _context.IOT_Modules.Add(newIOT_Module);
             _context.SaveChanges();
-            var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.PondId == model.PondId);
+            iotModule = _context.IOT_Modules.FirstOrDefault(x => x.serialId == model.serialId);
             return new CreateIOT_ModuleResponse(iotModule,"Created Sucessfully",null );
 
-            }
-        throw new KeyNotFoundException("Pond not found");
+    }
 
-
-
-
-
-    }*/
+    public CreateIOT_ModuleResponse SetPond(SetPond_ModuleRequest model){
+    var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.Id == model.Id);
+    if(iotModule != null){
+          iotModule.PondId = model.pondId;
+    _context.IOT_Modules.Attach(iotModule).Property(r=>r.PondId).IsModified=true;
+    _context.SaveChanges();
+    iotModule = _context.IOT_Modules.FirstOrDefault(x => x.Id == model.Id);
+    return new CreateIOT_ModuleResponse(iotModule,"the pond was set sucessfully",null);
+    }
+    return new CreateIOT_ModuleResponse(iotModule,"there was an error",null);
+    }
 
     public IEnumerable<IOT_Module> GetAll()
     {
@@ -83,6 +89,7 @@ public class IOT_ModuleService : I_IOT_ModuleService
         var iotModule = _context.IOT_Modules.Find(id);
         Console.WriteLine("looking at pond",id);
         if (iotModule == null) throw new KeyNotFoundException("User not found");
+        Console.WriteLine("looking at pond2",id);
         _context.Remove(iotModule);
         _context.SaveChanges();
         return iotModule;
