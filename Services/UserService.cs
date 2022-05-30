@@ -14,6 +14,7 @@ public interface IUserService
     AuthenticateResponse AuthenticateSingup(AuthenticateSingupRequest model);
     IEnumerable<User> GetAll();
     User GetById(int id);
+    NotificationToken_Response setNotificationToken(NotificationToken_Request model);
 }
 
 public class UserService : IUserService
@@ -86,4 +87,17 @@ public class UserService : IUserService
         if (user == null) throw new KeyNotFoundException("User not found");
         return user;
     }
+
+      public NotificationToken_Response setNotificationToken(NotificationToken_Request model)
+    {
+        var user = _context.Users.Find(model.id);
+        if (user == null) throw new KeyNotFoundException("User not found");
+        user.notificationToken = model.token;
+        _context.Users.Attach(user).Property(r=>r.notificationToken).IsModified=true;
+        _context.SaveChanges();
+        user = _context.Users.Find(model.id);
+
+        return new NotificationToken_Response("sucess",user);
+    }
+
 }
