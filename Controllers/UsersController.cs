@@ -50,4 +50,15 @@ public class UsersController : ControllerBase
 
         return Ok(user);
     }
+
+
+    [AllowAnonymous]
+    [HttpPost("[action]")]
+    public IActionResult setNotificationToken(NotificationToken_Request model)
+    {
+        // only admins can access other user records
+        var user =  _userService.setNotificationToken(model);
+
+        return Ok(user);
+    }
 }

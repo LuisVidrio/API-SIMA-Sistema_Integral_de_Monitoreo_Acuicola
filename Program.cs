@@ -31,6 +31,8 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<I_IOT_ModuleService, IOT_ModuleService>();
     services.AddScoped<I_IOT_DeviceService, IOT_DeviceService>();
     services.AddScoped<I_IOT_ValuesService, IOT_ValuesService>();
+    services.AddSingleton<IMobileMessagingClient, MobileMessagingClient >();
+
 
 
 

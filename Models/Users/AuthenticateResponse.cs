@@ -10,6 +10,7 @@ public class AuthenticateResponse
     public string Username { get; set; }
     public Role Role { get; set; }
     public string Token { get; set; }
+    public string notificationToken {get; set;}
 
     public AuthenticateResponse(User user, string token)
     {
@@ -19,5 +20,6 @@ public class AuthenticateResponse
         Username = user.Username;
         Role = user.Role;
         Token = token;
+        notificationToken = user.notificationToken;
     }
 }

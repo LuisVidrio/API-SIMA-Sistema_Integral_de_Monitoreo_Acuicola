@@ -9,6 +9,8 @@ public class User
     public string LastName { get; set; }
     public string Username { get; set; }
     public Role Role { get; set; }
+    public string notificationToken {get; set;}
+    public string notificationUserTopic { get; set; }
 
     [JsonIgnore]
     public string PasswordHash { get; set; }
