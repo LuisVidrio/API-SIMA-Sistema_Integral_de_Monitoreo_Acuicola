@@ -14,4 +14,7 @@ public class User
 
     [JsonIgnore]
     public string PasswordHash { get; set; }
+
+        public List<Pond> Ponds { get; set;}
+
 }

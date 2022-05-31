@@ -15,4 +15,6 @@ public class CreatePondRequest
      [Required]
     public int Longitud { get; set; }
 
+    public int userId { get; set; }
+
 }

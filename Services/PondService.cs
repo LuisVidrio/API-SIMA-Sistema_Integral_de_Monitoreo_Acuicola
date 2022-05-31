@@ -11,11 +11,13 @@ using Microsoft.EntityFrameworkCore;
 
 
 public interface IPondService
-{    CreatePondResponse Add(CreatePondRequest model);
+{   CreatePondResponse Add(CreatePondRequest model);
     IEnumerable<Pond> GetAll();
     Pond GetById(int id);
     Pond Delete(int id);
     CreatePondResponse Update(Pond model);
+    IEnumerable<Pond> getPondsByUser(int id);
+
 }
 
 public class PondService : IPondService
@@ -44,6 +46,7 @@ public class PondService : IPondService
         if (pond == null)
         {
             var newPond = new Pond {
+                UserId = model.userId,
                 Name = model.Name,
                 Altitude = model.Altitude,
                 Longitud = model.Longitud,
@@ -59,6 +62,17 @@ public class PondService : IPondService
     public IEnumerable<Pond> GetAll()
     {
         return _context.Ponds.Include(Pond => Pond.IOT_Modules).ToList();
+    }
+
+     public IEnumerable<Pond> getPondsByUser(int id)
+    {
+          return _context.Ponds.Where(Value => Value.UserId == id).Select(p => new Pond{
+                Id = p.Id,
+                Name = p.Name,
+                Altitude = p.Altitude,
+                Longitud = p.Longitud,
+                UserId = p.UserId,
+            });
     }
 
     public Pond GetById(int id)
