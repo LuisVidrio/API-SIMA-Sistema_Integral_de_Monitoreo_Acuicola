@@ -17,6 +17,8 @@ public interface I_IOT_ModuleService
     IOT_Module Delete(int id);
     CreateIOT_ModuleResponse Update(IOT_Module model);
     CreateIOT_ModuleResponse SetPond(SetPond_ModuleRequest model);
+    IEnumerable<IOT_Module> getNotActive();
+
 }
 
 public class IOT_ModuleService : I_IOT_ModuleService
@@ -67,6 +69,17 @@ public class IOT_ModuleService : I_IOT_ModuleService
     public IEnumerable<IOT_Module> GetAll()
     {
         return _context.IOT_Modules.Include(IO_Modules => IO_Modules.IOT_Devices).ToList();;
+    }
+
+     public IEnumerable<IOT_Module> getNotActive()
+    {
+            return _context.IOT_Modules.Where(Value => Value.PondId == null).Select(p => new IOT_Module{
+                Id = p.Id,
+                serialId = p.serialId,
+                release = p.release,
+                CPU = p.CPU,
+                IOT_Devices = p.IOT_Devices,
+            });
     }
 
     public IOT_Module GetById(int id)
