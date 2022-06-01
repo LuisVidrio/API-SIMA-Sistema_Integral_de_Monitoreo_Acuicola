@@ -40,6 +40,14 @@ public class PondsController : ControllerBase
         var pond =  _pondService.GetById(id);
         return Ok(pond);
     }
+    [AllowAnonymous]
+    [HttpGet("user/{userId:int}")]
+    public IActionResult GetUserPonds(int userId)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.getPondsByUser(userId);
+        return Ok(pond);
+    }
     [HttpDelete("{id:int}")]
      public IActionResult Delete(int id)
     {

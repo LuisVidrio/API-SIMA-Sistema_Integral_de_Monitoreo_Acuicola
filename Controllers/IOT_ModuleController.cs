@@ -63,4 +63,10 @@ public class IOT_ModuleController : ControllerBase
         var response = _iotModuleService.SetPond(model);
         return Ok(response);
     }
+    [HttpGet("[action]")]
+   public IActionResult getNotActive()
+    {
+        var response = _iotModuleService.getNotActive();
+        return Ok(response);
+    }
 }
