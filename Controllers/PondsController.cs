@@ -65,4 +65,33 @@ public class PondsController : ControllerBase
 
         return Ok(pond);
     }
+    [HttpGet("basket/{pondId:int}")]
+    public IActionResult createbasket(int pondId)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.CreateFoodBasket(pondId);
+        return Ok(pond);
+    }
+    [HttpGet("basketbypond/{pondId:int}")]
+    public IActionResult getBasketbyPond(int pondId)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.GetBasketbyPond(pondId);
+        return Ok(pond);
+    }
+
+    [HttpPut("basketupdate")]
+     public IActionResult UpdateBasket(FoodBasket model)
+    {
+        var pond =  _pondService.UpdateBasket(model);
+        return Ok(pond);
+    }
+     [HttpDelete("basket/{basketId:int}")]
+    public IActionResult DeleteBasket(int basketId)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.DeleteFoodBasket(basketId);
+        return Ok(pond);
+    }
+
 }

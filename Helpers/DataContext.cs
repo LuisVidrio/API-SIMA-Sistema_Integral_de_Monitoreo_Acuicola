@@ -12,6 +12,14 @@ public class DataContext : DbContext
     public DbSet<IOT_Device> IOT_Devices { get; set; }
     public DbSet<IOT_Value> IOT_Values { get; set; }
 
+    public DbSet<FoodBasket> FoodBaskets { get; set; }
+
+    public DbSet<Parameter_range> parameter_ranges {get; set;}
+
+     public DbSet<Food> Foods {get; set;}
+
+
+
 
     private readonly IConfiguration Configuration;
 
