@@ -76,7 +76,6 @@ public class IOT_ModuleService : I_IOT_ModuleService
             return _context.IOT_Modules.Where(Value => Value.PondId == null).Select(p => new IOT_Module{
                 Id = p.Id,
                 serialId = p.serialId,
-                release = p.release,
                 CPU = p.CPU,
                 IOT_Devices = p.IOT_Devices,
             });

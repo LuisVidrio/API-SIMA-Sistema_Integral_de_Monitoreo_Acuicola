@@ -11,6 +11,7 @@ public class User
     public Role Role { get; set; }
     public string notificationToken {get; set;}
     public string notificationUserTopic { get; set; }
+    public List<Food> userFoods {get; set;}
 
     [JsonIgnore]
     public string PasswordHash { get; set; }

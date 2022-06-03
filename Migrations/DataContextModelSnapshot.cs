@@ -19,6 +19,56 @@ namespace WebApi.Migrations
                 .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("WebApi.Entities.Food", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("created_at")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("existence")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("food_cost")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("food_quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("food_type")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Foods");
+                });
+
+            modelBuilder.Entity("WebApi.Entities.FoodBasket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("PondId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("mutation")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PondId");
+
+                    b.ToTable("FoodBaskets");
+                });
+
             modelBuilder.Entity("WebApi.Entities.IOT_Device", b =>
                 {
                     b.Property<string>("Id")
@@ -52,13 +102,19 @@ namespace WebApi.Migrations
                     b.Property<int?>("PondId")
                         .HasColumnType("int");
 
-                    b.Property<string>("release")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("serialId")
                         .HasColumnType("longtext");
 
                     b.Property<string>("version")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("wifi_pass")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("wifi_type")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("wifi_user")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -85,6 +141,31 @@ namespace WebApi.Migrations
                     b.HasKey("IOT_DeviceId", "created_at");
 
                     b.ToTable("IOT_Values");
+                });
+
+            modelBuilder.Entity("WebApi.Entities.Parameter_range", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Parameter")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PondId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("high")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("low")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("PondId");
+
+                    b.ToTable("parameter_ranges");
                 });
 
             modelBuilder.Entity("WebApi.Entities.Pond", b =>
@@ -144,6 +225,24 @@ namespace WebApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebApi.Entities.Food", b =>
+                {
+                    b.HasOne("WebApi.Entities.User", null)
+                        .WithMany("userFoods")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApi.Entities.FoodBasket", b =>
+                {
+                    b.HasOne("WebApi.Entities.Pond", null)
+                        .WithMany("Baskets")
+                        .HasForeignKey("PondId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebApi.Entities.IOT_Device", b =>
                 {
                     b.HasOne("WebApi.Entities.IOT_Module", "IOT_Module")
@@ -173,6 +272,17 @@ namespace WebApi.Migrations
                     b.Navigation("IOT_Device");
                 });
 
+            modelBuilder.Entity("WebApi.Entities.Parameter_range", b =>
+                {
+                    b.HasOne("WebApi.Entities.Pond", "Pond")
+                        .WithMany("Parameter_ranges")
+                        .HasForeignKey("PondId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pond");
+                });
+
             modelBuilder.Entity("WebApi.Entities.Pond", b =>
                 {
                     b.HasOne("WebApi.Entities.User", null)
@@ -194,12 +304,18 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("WebApi.Entities.Pond", b =>
                 {
+                    b.Navigation("Baskets");
+
                     b.Navigation("IOT_Modules");
+
+                    b.Navigation("Parameter_ranges");
                 });
 
             modelBuilder.Entity("WebApi.Entities.User", b =>
                 {
                     b.Navigation("Ponds");
+
+                    b.Navigation("userFoods");
                 });
 #pragma warning restore 612, 618
         }

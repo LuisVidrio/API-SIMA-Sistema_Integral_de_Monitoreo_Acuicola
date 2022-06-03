@@ -9,21 +9,60 @@ public class Pond
     public int Longitud { get; set; }
     public string Name { get; set; }
     public int UserId { get; set; }
-
     public List<IOT_Module> IOT_Modules { get; set;}
+    public List<Parameter_range> Parameter_ranges { get; set;}
+    public List<FoodBasket> Baskets { get; set; }
 
 }
+
+public enum BasketMutation{
+    created,foodIn,foodOut
+}
+
+public class Food {
+    public int Id {get; set;}
+    public int UserId {get; set;}
+    public string food_type {get; set;}
+    public decimal food_cost {get; set;}
+    public int food_quantity {get; set;}
+    public int existence {get; set;}
+     public DateTime created_at { get; set; }
+
+}
+
+
+public class FoodBasket {
+    public int Id { get; set;}
+    public int PondId {get; set; }
+    public BasketMutation mutation { get; set; }
+
+}
+
+public class Parameter_range
+{
+    public int id {get; set;}
+    public int PondId {get; set;}
+    public Parameter Parameter {get; set;}
+    public decimal low  {get; set;}
+    public decimal high {get; set;}
+    public Pond? Pond { get; set; }
+
+}
+
 public class IOT_Module
 {
     public int Id { get; set; }
     public int? PondId { get; set; }
     public string serialId { get; set; }
-
-    public string release {get; set; }
-
     public string version { get; set; }
     public string CPU {get; set; }
     public Pond? Pond { get; set; }
+
+    public string? wifi_user {get; set; }
+
+    public string? wifi_pass { get; set; }
+
+    public string? wifi_type { get; set; }
 
     public List<IOT_Device>? IOT_Devices { get; set;}
 }

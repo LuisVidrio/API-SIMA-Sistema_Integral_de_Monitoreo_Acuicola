@@ -61,4 +61,21 @@ public class UsersController : ControllerBase
 
         return Ok(user);
     }
+    [HttpGet("[action]")]
+    public IActionResult GetAllFood()
+    {
+        Console.Write("helllo");
+        var food =  _userService.GetAllFood(HttpContext);
+        return Ok(food);
+    }
+
+     [HttpPost("createfood")]
+    public IActionResult CreateFood(CreateFoodRequest model)
+    {
+        Console.Write("helllo");
+        var food =  _userService.CreateFood(model);
+        return Ok(food);
+    }
+
+
 }

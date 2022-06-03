@@ -15,6 +15,10 @@ public interface IUserService
     IEnumerable<User> GetAll();
     User GetById(int id);
     NotificationToken_Response setNotificationToken(NotificationToken_Request model);
+    IEnumerable<Food> GetAllFood(HttpContext http);
+    Food CreateFood(CreateFoodRequest model);
+
+
 }
 
 public class UserService : IUserService
@@ -23,10 +27,12 @@ public class UserService : IUserService
     private IJwtUtils _jwtUtils;
     private readonly AppSettings _appSettings;
 
+
     public UserService(
         DataContext context,
         IJwtUtils jwtUtils,
-        IOptions<AppSettings> appSettings)
+        IOptions<AppSettings> appSettings
+        )
     {
         _context = context;
         _jwtUtils = jwtUtils;
@@ -99,5 +105,35 @@ public class UserService : IUserService
 
         return new NotificationToken_Response("sucess",user);
     }
+
+     public IEnumerable<Food> GetAllFood(HttpContext http){
+                 var token = http.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var id = _jwtUtils.ValidateJwtToken(token);
+           return _context.Foods.Where(Value => Value.UserId == id).Select(p => new Food{
+                 Id = p.Id,
+             UserId = p.UserId,
+             food_type = p.food_type,
+             food_cost = p.food_cost,
+             food_quantity = p.food_quantity,
+             existence  = p.existence
+
+           });
+    }
+
+     public Food CreateFood(CreateFoodRequest model)
+    {
+
+            var newFood = new Food {
+                UserId = model.userId,
+                food_type = model.food_type,
+                food_cost = model.food_cost,
+                food_quantity = model.food_quantity,
+                existence = model.food_quantity,
+                };
+            _context.Foods.Add(newFood);
+            _context.SaveChanges();
+        return newFood;
+
+}
 
 }

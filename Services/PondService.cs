@@ -17,6 +17,12 @@ public interface IPondService
     Pond Delete(int id);
     CreatePondResponse Update(Pond model);
     IEnumerable<Pond> getPondsByUser(int id);
+    CreatePondResponse CreateFoodBasket(int id);
+    IEnumerable<FoodBasket>  GetBasketbyPond(int id);
+
+    BasketResponse UpdateBasket(FoodBasket model);
+    BasketResponse DeleteFoodBasket(int id);
+
 
 }
 
@@ -54,6 +60,26 @@ public class PondService : IPondService
             _context.Ponds.Add(newPond);
             _context.SaveChanges();
             pond = _context.Ponds.SingleOrDefault(x => x.Name == model.Name);
+        }
+
+        return new CreatePondResponse(pond,"Created Sucessfully",null );
+    }
+     public  CreatePondResponse CreateFoodBasket(int id)
+    {
+        var pond = _context.Ponds.SingleOrDefault(x => x.Id == id);
+            BasketMutation createMutation = 0;
+        // validate
+        if (pond == null )
+            throw new AppException("el estanque no existe");
+        if (pond != null)
+        {
+            var newFoodbasket = new FoodBasket {
+                    PondId = id,
+                    mutation = createMutation,
+                };
+            _context.FoodBaskets.Add(newFoodbasket);
+            _context.SaveChanges();
+            pond = _context.Ponds.SingleOrDefault(x => x.Id == id);
         }
 
         return new CreatePondResponse(pond,"Created Sucessfully",null );
@@ -100,4 +126,27 @@ public class PondService : IPondService
         return pond;
 
     }
+    public BasketResponse DeleteFoodBasket(int id){
+        var basket = _context.FoodBaskets.Find(id);
+        if (basket == null) throw new KeyNotFoundException("User not found");
+        _context.Remove(basket);
+        _context.SaveChanges();
+        return new BasketResponse(basket,"delete sucessfully",null);
+    }
+     public  IEnumerable<FoodBasket>  GetBasketbyPond(int id)
+    {
+           return _context.FoodBaskets.Where(Value => Value.PondId == id).Select(p => new FoodBasket{
+                 Id = p.Id,
+                 PondId = p.PondId,
+                 mutation = p.mutation,
+           });
+    }
+
+    public BasketResponse UpdateBasket(FoodBasket model){
+               _context.FoodBaskets.Update(model);
+                    _context.SaveChanges();
+                    var basket =  _context.FoodBaskets.Find(model.Id);
+            return new BasketResponse(basket,"canastilla actualizada",null);
+    }
+
 }
