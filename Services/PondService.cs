@@ -23,6 +23,11 @@ public interface IPondService
     BasketResponse UpdateBasket(FoodBasket model);
     BasketResponse DeleteFoodBasket(int id);
 
+    Parameter_range CreateParameterRange(ParameterRangeRequest model);
+
+    IEnumerable<Parameter_range> GetParameter_Ranges(int pondId);
+
+
 
 }
 
@@ -83,6 +88,36 @@ public class PondService : IPondService
         }
 
         return new CreatePondResponse(pond,"Created Sucessfully",null );
+    }
+
+    public Parameter_range CreateParameterRange(ParameterRangeRequest model)
+    {
+        var parameter = _context.parameter_ranges.SingleOrDefault(x => x.Parameter == model.parameter);
+        // validate
+        if (parameter == null )
+       {
+            var newParameter = new Parameter_range {
+                Parameter = model.parameter,
+                PondId = model.pondId,
+                low = model.low,
+                high = model.high
+                };
+            _context.parameter_ranges.Add(newParameter);
+            _context.SaveChanges();
+        return _context.parameter_ranges.SingleOrDefault(x => x.Parameter == model.parameter);
+
+        }
+                throw new AppException("el parametro existe");
+    }
+
+    public IEnumerable<Parameter_range> GetParameter_Ranges(int pondId)
+    {
+        return _context.parameter_ranges.Where(x => x.PondId == pondId).Select(p => new Parameter_range{
+            Id = p.Id,
+            Parameter = p.Parameter,
+            low = p.low,
+            high = p.high
+            } );
     }
 
     public IEnumerable<Pond> GetAll()

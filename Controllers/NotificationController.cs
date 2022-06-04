@@ -18,10 +18,12 @@ public class NotificationController : ControllerBase
    // private IPondService _pondService;
     private  MobileMessagingClient _mobile;
     public FirebaseMessaging messaging;
+    public DataContext _context;
 
-    public NotificationController(IMobileMessagingClient mobile)
+    public NotificationController(IMobileMessagingClient mobile,DataContext context)
     {
         messaging = mobile.getMessaging();
+        _context = context;
     }
 
     private Message CreateNotification(string title, string notificationBody, string token)
@@ -38,12 +40,21 @@ public class NotificationController : ControllerBase
 }
 
     [AllowAnonymous]
-    [HttpGet]
-    public IActionResult sendPush()
+    [HttpGet("sendpush/{pondId:int}")]
+    public IActionResult sendPush(int pondId)
     {
-        var result = messaging.SendAsync(CreateNotification("hi", "im sending a notification", "f5oCbVCKGvkzXfh6O_0lPQ:APA91bEIFHALNwIixOQyLth5U1ktO9jdKKAorRxEVQ8Sx-bKM0sFuu8kwSTK-mXrK60HEjnSi9yXSkEb5Rkoj3uA1uWj_5PtHSablpIV8K1tnSV9cSWZUhr1HnVhgLMYBQsVEF3nRw-V"));
+        Console.WriteLine("1");
+        var message = "im sending a push notification";
+        var topic = "Warning/Critic/Good";
+        Console.WriteLine("2");
+        var userId = _context.Ponds.FirstOrDefault(x => x.Id == pondId).UserId;
+        Console.WriteLine("3");
+        var notificationToken = _context.Users.FirstOrDefault(x => x.Id == userId).notificationToken;
+        Console.WriteLine("4");
+        var result = messaging.SendAsync(CreateNotification(topic, message, notificationToken));
+        Console.WriteLine("5");
 
-        //var response = _pondService.Add(model);
+
         return Ok(result);
     }
   

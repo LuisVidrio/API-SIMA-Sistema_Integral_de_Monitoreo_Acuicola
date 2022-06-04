@@ -93,5 +93,20 @@ public class PondsController : ControllerBase
         var pond =  _pondService.DeleteFoodBasket(basketId);
         return Ok(pond);
     }
+      [HttpPost("parameters")]
+    public IActionResult createParameterRange(ParameterRangeRequest model)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.CreateParameterRange(model);
+        return Ok(pond);
+    }
+      [HttpGet("parameters/{pondId:int}")]
+    public IActionResult createParameterRange(int pondId)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.GetParameter_Ranges(pondId);
+        return Ok(pond);
+    }
+
 
 }

@@ -40,7 +40,7 @@ public class FoodBasket {
 
 public class Parameter_range
 {
-    public int id {get; set;}
+    public int Id {get; set;}
     public int PondId {get; set;}
     public Parameter Parameter {get; set;}
     public decimal low  {get; set;}
