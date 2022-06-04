@@ -69,4 +69,11 @@ public class IOT_ModuleController : ControllerBase
         var response = _iotModuleService.getNotActive();
         return Ok(response);
     }
+    [HttpPut("setConfig")]
+
+     public IActionResult setModuleConfig(SetModuleConfigRequest model)
+    {
+        var response = _iotModuleService.SetModuleConfig(model);
+        return Ok(response);
+    }
 }

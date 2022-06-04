@@ -9,7 +9,6 @@ using WebApi.Helpers;
 using WebApi.Models.Ponds;
 using Microsoft.EntityFrameworkCore;
 
-
 public interface I_IOT_ModuleService
 {   CreateIOT_ModuleResponse Add(CreateIOT_ModuleRequest model);
     IEnumerable<IOT_Module> GetAll();
@@ -18,6 +17,7 @@ public interface I_IOT_ModuleService
     CreateIOT_ModuleResponse Update(IOT_Module model);
     CreateIOT_ModuleResponse SetPond(SetPond_ModuleRequest model);
     IEnumerable<IOT_Module> getNotActive();
+    CreateIOT_ModuleResponse SetModuleConfig(SetModuleConfigRequest model);
 
 }
 
@@ -27,10 +27,12 @@ public class IOT_ModuleService : I_IOT_ModuleService
     private IJwtUtils _jwtUtils;
     private readonly AppSettings _appSettings;
 
+
     public IOT_ModuleService(
         DataContext context,
         IJwtUtils jwtUtils,
-        IOptions<AppSettings> appSettings)
+        IOptions<AppSettings> appSettings
+        )
     {
         _context = context;
         _jwtUtils = jwtUtils;
@@ -106,5 +108,21 @@ public class IOT_ModuleService : I_IOT_ModuleService
         _context.SaveChanges();
         return iotModule;
 
+    }
+
+      public CreateIOT_ModuleResponse SetModuleConfig(SetModuleConfigRequest model){
+    var iotModule = _context.IOT_Modules.FirstOrDefault(x => x.Id == model.Id);
+    if(iotModule != null){
+
+          iotModule.wifi_pass = model.wifi_pass;
+          iotModule.wifi_type = model.wifi_type;
+          iotModule.wifi_user = model.wifi_user;
+
+    _context.IOT_Modules.Attach(iotModule).State=EntityState.Modified;
+    _context.SaveChanges();
+    iotModule = _context.IOT_Modules.FirstOrDefault(x => x.Id == model.Id);
+    return new CreateIOT_ModuleResponse(iotModule,"the wifi was updated",null);
+    }
+    return new CreateIOT_ModuleResponse(iotModule,"there was an error",null);
     }
 }
