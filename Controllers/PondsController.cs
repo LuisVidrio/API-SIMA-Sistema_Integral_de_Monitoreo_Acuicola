@@ -107,6 +107,13 @@ public class PondsController : ControllerBase
         var pond =  _pondService.GetParameter_Ranges(pondId);
         return Ok(pond);
     }
+      [HttpDelete("parameters")]
+    public IActionResult DeleteParameterRange(DeleteParameterRequest model)
+    {
+        // only admins can access other user records
+        var pond =  _pondService.DeleteParameter(model);
+        return Ok(pond);
+    }
 
 
 }
