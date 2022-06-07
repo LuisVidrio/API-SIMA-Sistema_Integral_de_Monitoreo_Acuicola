@@ -23,7 +23,22 @@ public class IOT_ValuesController : ControllerBase
     {
         var values = _iotValuesService.GetByPondId(id);
         return Ok(values);
-    }/*
+    }
+        [AllowAnonymous]
+      [HttpGet("bydate/{pondId:int}")]
+    public IActionResult GetByDate(int pondId){
+         var values = _iotValuesService.GetByDate(pondId);
+        return Ok(values);
+    }
+
+         [AllowAnonymous]
+      [HttpGet("getdate")]
+    public IActionResult GetByDate(){
+         var values = _iotValuesService.getDate();
+        return Ok(values);
+    }
+
+    /*
     [AllowAnonymous]
     [HttpGet("{id:int}")]
     public IActionResult GetById(int id)

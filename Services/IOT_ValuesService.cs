@@ -17,6 +17,9 @@ public interface I_IOT_ValuesService
    //  IOT_Values Delete(int id);
   //  CreateIOT_ValuesResponse Update(IOT_Values model);
     IEnumerable<IOT_ValueResponse> GetByPondId(int id);
+        IEnumerable<IOT_ValueResponse> GetByDate(int id);
+        DateTime getDate();
+
 }
 
 public class IOT_ValuesService : I_IOT_ValuesService
@@ -44,6 +47,19 @@ public class IOT_ValuesService : I_IOT_ValuesService
            var IOT_Device = _context.IOT_Devices.FirstOrDefault(x => x.IOT_ModuleId == IOT_Module.Id);
             Console.WriteLine("weps3");
             return _context.IOT_Values.Where(Value => Value.IOT_DeviceId == IOT_Device.Id).Select(p => new IOT_ValueResponse(p));
+        }
+
+         public IEnumerable<IOT_ValueResponse> GetByDate(int id){
+                 var limit = DateTime.Today.AddHours(-1);
+           var  IOT_Module = _context.IOT_Modules.FirstOrDefault(x=>x.PondId == id);
+
+           var IOT_Device = _context.IOT_Devices.FirstOrDefault(x => x.IOT_ModuleId == IOT_Module.Id);
+
+            return _context.IOT_Values.Where(Value => Value.created_at >limit ).Select(p => new IOT_ValueResponse(p));
+        }
+
+        public DateTime getDate(){
+            return DateTime.Now;
         }
 
 
