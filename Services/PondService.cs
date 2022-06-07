@@ -27,6 +27,7 @@ public interface IPondService
 
     IEnumerable<Parameter_range> GetParameter_Ranges(int pondId);
 
+    Parameter_range DeleteParameter(DeleteParameterRequest model);
 
 
 }
@@ -92,9 +93,36 @@ public class PondService : IPondService
 
     public Parameter_range CreateParameterRange(ParameterRangeRequest model)
     {
-        var parameter = _context.parameter_ranges.SingleOrDefault(x => x.Parameter == model.parameter);
+       var parameter_rantes = _context.parameter_ranges.Where(Value => Value.PondId == model.pondId).Select(p => new Parameter_range{
+                Id = p.Id,
+                PondId = p.PondId,
+                Parameter = p.Parameter,
+                low = p.low,
+                high = p.high,
+            }).ToArray();
+
+        if(parameter_rantes.Length == 0){
+          var newParameter = new Parameter_range {
+                Parameter = model.parameter,
+                PondId = model.pondId,
+                low = model.low,
+                high = model.high
+                };
+            _context.parameter_ranges.Add(newParameter);
+            _context.SaveChanges();
+        return newParameter;
+
+        }
+            var flag = true;
+            foreach(var parameter in parameter_rantes){
+                Console.WriteLine($"{model.parameter} and {parameter.Parameter} {parameter.Id}");
+                if(parameter.Parameter == model.parameter){
+                  flag = false;
+                  Console.WriteLine("it exists");
+                }
+            }
         // validate
-        if (parameter == null )
+        if ( flag )
        {
             var newParameter = new Parameter_range {
                 Parameter = model.parameter,
@@ -104,7 +132,7 @@ public class PondService : IPondService
                 };
             _context.parameter_ranges.Add(newParameter);
             _context.SaveChanges();
-        return _context.parameter_ranges.SingleOrDefault(x => x.Parameter == model.parameter);
+        return newParameter;
 
         }
                 throw new AppException("el parametro existe");
@@ -119,6 +147,16 @@ public class PondService : IPondService
             high = p.high
             } );
     }
+    public Parameter_range DeleteParameter(DeleteParameterRequest model)
+    {
+        var paramter_range = _context.parameter_ranges.SingleOrDefault(x => x.Id == model.Id);
+        _context.parameter_ranges.Remove(paramter_range);
+        _context.SaveChanges();
+        return paramter_range;
+    }
+
+
+
 
     public IEnumerable<Pond> GetAll()
     {
