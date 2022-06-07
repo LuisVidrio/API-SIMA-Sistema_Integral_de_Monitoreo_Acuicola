@@ -78,4 +78,21 @@ public class UsersController : ControllerBase
     }
 
 
+     [HttpDelete("Delete/{userId:int}")]
+    public IActionResult DeleteUser(int userId )
+    {
+        Console.Write("helllo");
+        var food =  _userService.DeleteUser(userId);
+        return Ok(food);
+    }
+
+     [HttpPut("update")]
+    public IActionResult UpdateUser(User model)
+    {
+        Console.Write("helllo");
+        var food =  _userService.Update(model);
+        return Ok(food);
+    }
+
+
 }

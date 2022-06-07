@@ -18,6 +18,11 @@ public interface IUserService
     IEnumerable<Food> GetAllFood(HttpContext http);
     Food CreateFood(CreateFoodRequest model);
 
+    User DeleteUser(int id);
+
+    User Update( User model);
+
+
 
 }
 
@@ -82,6 +87,15 @@ public class UserService : IUserService
         return new AuthenticateResponse(user, jwtToken);
     }
 
+   public User DeleteUser(int id)
+    {
+        var user = _context.Users.SingleOrDefault(x => x.Id == id);
+        _context.Users.Remove(user);
+        _context.SaveChanges();
+        return user;
+    }
+
+
     public IEnumerable<User> GetAll()
     {
         return _context.Users;
@@ -133,7 +147,13 @@ public class UserService : IUserService
             _context.Foods.Add(newFood);
             _context.SaveChanges();
         return newFood;
-
 }
+
+  public User Update( User model){
+                    _context.Users.Update(model);
+                    _context.SaveChanges();
+                    var user =  _context.Users.Find(model.Id);
+            return user;
+    }
 
 }
