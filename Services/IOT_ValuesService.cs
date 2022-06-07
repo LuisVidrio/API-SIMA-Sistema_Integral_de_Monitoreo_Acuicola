@@ -59,7 +59,7 @@ public class IOT_ValuesService : I_IOT_ValuesService
         }
 
         public DateTime getDate(){
-            return DateTime.Now.AddHours(-4);
+            return DateTime.Now.AddHours(-6);
         }
 
 
