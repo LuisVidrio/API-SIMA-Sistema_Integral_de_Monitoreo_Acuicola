@@ -100,14 +100,19 @@ public class PondService : IPondService
                 low = p.low,
                 high = p.high,
             }).ToArray();
+        Console.WriteLine("trono aqui 1");
 
         if(parameter_rantes.Length == 0){
+                    Console.WriteLine("trono aqui 3");
+
           var newParameter = new Parameter_range {
                 Parameter = model.parameter,
                 PondId = model.pondId,
                 low = model.low,
                 high = model.high
                 };
+                    Console.WriteLine($"trono aqui 4{model.pondId}");
+
             _context.parameter_ranges.Add(newParameter);
             _context.SaveChanges();
         return newParameter;
