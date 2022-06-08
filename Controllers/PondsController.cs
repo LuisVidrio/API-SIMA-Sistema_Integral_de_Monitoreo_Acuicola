@@ -26,6 +26,7 @@ public class PondsController : ControllerBase
         var response = _pondService.Add(model);
         return Ok(response);
     }
+    [AllowAnonymous]
     [HttpGet]
     public IActionResult GetAll()
     {
@@ -48,6 +49,7 @@ public class PondsController : ControllerBase
         var pond =  _pondService.getPondsByUser(userId);
         return Ok(pond);
     }
+    [AllowAnonymous]
     [HttpDelete("{id:int}")]
      public IActionResult Delete(int id)
     {
@@ -65,6 +67,7 @@ public class PondsController : ControllerBase
 
         return Ok(pond);
     }
+    [AllowAnonymous]
     [HttpGet("basket/{pondId:int}")]
     public IActionResult createbasket(int pondId)
     {
@@ -72,6 +75,7 @@ public class PondsController : ControllerBase
         var pond =  _pondService.CreateFoodBasket(pondId);
         return Ok(pond);
     }
+    [AllowAnonymous]
     [HttpGet("basketbypond/{pondId:int}")]
     public IActionResult getBasketbyPond(int pondId)
     {
@@ -79,13 +83,14 @@ public class PondsController : ControllerBase
         var pond =  _pondService.GetBasketbyPond(pondId);
         return Ok(pond);
     }
-
+      [AllowAnonymous]
     [HttpPut("basketupdate")]
      public IActionResult UpdateBasket(FoodBasket model)
     {
         var pond =  _pondService.UpdateBasket(model);
         return Ok(pond);
     }
+    [AllowAnonymous]
      [HttpDelete("basket/{basketId:int}")]
     public IActionResult DeleteBasket(int basketId)
     {
@@ -93,6 +98,7 @@ public class PondsController : ControllerBase
         var pond =  _pondService.DeleteFoodBasket(basketId);
         return Ok(pond);
     }
+      [AllowAnonymous]
       [HttpPost("parameters")]
     public IActionResult createParameterRange(ParameterRangeRequest model)
     {
@@ -100,6 +106,7 @@ public class PondsController : ControllerBase
         var pond =  _pondService.CreateParameterRange(model);
         return Ok(pond);
     }
+      [AllowAnonymous]
       [HttpGet("parameters/{pondId:int}")]
     public IActionResult createParameterRange(int pondId)
     {
@@ -107,6 +114,7 @@ public class PondsController : ControllerBase
         var pond =  _pondService.GetParameter_Ranges(pondId);
         return Ok(pond);
     }
+      [AllowAnonymous]
       [HttpDelete("parameters")]
     public IActionResult DeleteParameterRange(DeleteParameterRequest model)
     {
